@@ -1,0 +1,69 @@
+{
+	"AWSTemplateFormatVersion":"2010-09-09",
+	"Description":"SSH Bastion Host",
+	"Parameters":{
+		"VPC":{
+			"Description":"The default VPC",
+			"Type":"AWS::EC2::VPC::Id"
+		},
+		"Subnet":{
+			"Description":"A public subnet of VPC",
+			"Type":"AWS::EC2::Subnet::Id"
+		},
+		"KeyPair":{
+			"Description":"A SSH key pair",
+			"Type":"AWS::EC2::KeyPair::KeyName"
+		}
+	},
+	"Mappings": {
+		"RegionMap":{
+			"us-east-1" : {"AMI":"ami-2d39803a"}
+		}
+	},
+	"Resources": {
+		"EC2Instance": {
+			"Type":"AWS::EC2::Instance",
+			"Properties": {
+				"ImageId":{"Fn::FindInMap": ["RegionMap", {"Ref": "AWS::Region"},"AMI"]},
+				"InstanceType":"t2.nano",
+				"NetworkInterfaces":[{
+					"AssociatePublicIpAddress":"true",
+					"DeviceIndex":"0",
+					"SubnetId":{"Ref":"Subnet"},
+					"GroupSet": [{"Ref":"SecurityGroup"}]
+				}],
+				"Tags":[{
+					"Key":"Name",
+					"Value":"ssh-bastion-host"
+				}],
+				"KeyName":{"Ref":"KeyPair"}
+			}
+		},
+		"ElasticIP":{
+			"Type":"AWS::EC2::EIP",
+			"Properties":{
+				"InstanceId":{"Ref":"EC2Instance"},
+				"Domain":"vpc"
+			}
+		},
+		"SecurityGroup":{
+			"Type":"AWS::EC2::SecurityGroup",
+			"Properties":{
+				"GroupDescription":"ssh-bastion-host",
+				"VpcId":{"Ref":"VPC"},
+				"SecurityGroupIngress":[{
+					"CidrIp":"170.138.104.250/32",
+					"FromPort": 22,
+					"IpProtocol":"tcp",
+					"ToPort": 22
+					}]
+				}
+		}
+	},
+	"Outputs":{
+		"SSHBastionHost":{
+			"Description":"Public IP address of the SSH bastion Host",
+			"Value":{"Ref":"ElasticIP"}
+		}
+	}
+}
