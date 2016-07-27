@@ -32,3 +32,9 @@ Cost optimization
 https://www.youtube.com/watch?v=i1Uq8_gt2p4
 https://www.youtube.com/watch?v=SG1DsYgeGEk
 
+SSL checker
+https://www.ssllabs.com/ssltest/analyze.html
+
+Virtual environments
+https://virtualenv.pypa.io/en/stable/
+
