@@ -38,3 +38,8 @@ https://www.ssllabs.com/ssltest/analyze.html
 Virtual environments
 https://virtualenv.pypa.io/en/stable/
 
+General info
+http://docs.python-guide.org/en/latest/
+http://www.zdnet.com/article/a-new-roadmap-for-enterprise-architects/
+https://www.edx.org/course/introduction-python-data-science-microsoft-dat208x-2?utm_content=course-announcements-mailing-list&utm_medium=email&
+
