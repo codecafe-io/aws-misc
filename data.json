@@ -1,0 +1,23 @@
+{
+	"user": [
+		{
+			"name":"codecafe",
+			"age":"20"
+			},
+		{
+			"name":"speedy",
+			"age":"18"
+			}],
+	"location":[
+		{
+			"place":"usa",
+			"zip":32134
+			},
+		{
+			"place":"thailand",
+			"zip":2398
+			}
+			],
+	"misc":"value",
+	"parameters":{"value":21}
+}
