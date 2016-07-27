@@ -1,0 +1,34 @@
+HA NAT instance
+https://aws.amazon.com/articles/2781451301784570
+https://aws.amazon.com/articles/6079781443936876
+
+json into python
+http://stackoverflow.com/questions/2835559/parsing-values-from-a-json-file-in-python
+
+REMUnux tips
+https://zeltser.com/remnux-malware-analysis-tips/
+
+Enable SQUID with DNS filtering
+https://blogs.aws.amazon.com/security/post/TxFRX7UFUIT2GD/How-to-Add-DNS-Filtering-to-Your-NAT-Instance-with-Squid
+https://aws.amazon.com/articles/6463473546098546
+
+AWS GoldBase
+https://d0.awsstatic.com/whitepapers/compliance/Intro_to_AWS_GoldBase.pdf
+
+Restrict S3 by nameduser
+https://blogs.aws.amazon.com/security/post/Tx1P2T3LFXXCNB5/Writing-IAM-policies-Grant-access-to-user-specific-folders-in-an-Amazon-S3-bucke
+
+Netflix SSL management
+http://techblog.netflix.com/2015/09/introducing-lemur.html
+
+AWS Security Blog
+https://blogs.aws.amazon.com/security/blog/category/Best+Practices
+
+Patch management
+http://spacewalk.redhat.com/
+WSUS server
+
+Cost optimization
+https://www.youtube.com/watch?v=i1Uq8_gt2p4
+https://www.youtube.com/watch?v=SG1DsYgeGEk
+
