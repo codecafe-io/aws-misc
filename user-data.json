@@ -1,0 +1,74 @@
+{
+	"AWSTemplateFormatVersion":"2010-09-09",
+	"Description":"GitLab restore",
+	"Parameters":{
+		"VPC":{
+			"Description":"The default VPC",
+			"Type":"AWS::EC2::VPC::Id"
+		},
+		"Subnet":{
+			"Description":"A public subnet of VPC",
+			"Type":"AWS::EC2::Subnet::Id"
+		},
+		"KeyPair":{
+			"Description":"A SSH key pair",
+			"Type":"AWS::EC2::KeyPair::KeyName"
+		}
+	},
+	"Mappings": {
+		"RegionMap":{
+			"us-east-1" : {"AMI":"ami-2d39803a"}
+		}
+	},
+	"Resources": {
+		"EC2Instance": {
+			"Type":"AWS::EC2::Instance",
+			"Properties": {
+				"ImageId":{"Fn::FindInMap": ["RegionMap", {"Ref": "AWS::Region"},"AMI"]},
+				"InstanceType":"m4.large",
+				"NetworkInterfaces":[{
+					"AssociatePublicIpAddress":"false",
+					"DeviceIndex":"0",
+					"SubnetId":{"Ref":"Subnet"},
+					"GroupSet": [{"Ref":"SecurityGroup"}]
+				}],
+				"KeyName":{"Ref":"KeyPair"},
+				"UserData": {"Fn::Base64":{"Fn::Join":["\n",[
+					"#!/bin/bash -ex",
+					"yum install -y telnet",
+					"service gitlab start"
+					]]}},
+				"Tags":[{
+					"Key":"Name",
+					"Value":"ssh-bastion-host"
+				}],
+				"KeyName":{"Ref":"KeyPair"}
+			}
+		},
+		"ElasticIP":{
+			"Type":"AWS::EC2::EIP",
+			"Properties":{
+				"InstanceId":{"Ref":"EC2Instance"},
+				"Domain":"vpc"
+			}
+		},
+		"SecurityGroup":{
+			"Type":"AWS::EC2::SecurityGroup",
+			"Properties":{
+				"GroupDescription":"GitLab",
+				"VpcId":{"Ref":"VPC"},
+				"SecurityGroupIngress":[
+					{ "IpProtocol":"tcp", "FromPort": "22", "ToPort": "22", "CidrIp":"10.165.0.0/16" },
+					{ "IpProtocol":"tcp", "FromPort": "443", "ToPort": "443", "CidrIp":"10.165.0.0/16" },
+					{ "IpProtocol":"icmp", "FromPort": "8", "ToPort": "-1", "CidrIp":"10.165.0.0/16" }
+				]
+			}
+		}
+	},
+	"Outputs":{
+		"GitLabServer":{
+			"Description":"IP address of the GitLab server",
+			"Value":{"Fn::GetAtt":["EC2Instance","PrivateIp"]}
+		}
+	}
+}
